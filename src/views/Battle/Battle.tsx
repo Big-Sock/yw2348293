@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
@@ -25,6 +26,41 @@ import { getTotalValue } from "../../yamUtils";
 import { getStats } from "./utils";
 import Cookie from "universal-cookie";
 import VersusCard from "./VersusCard.jsx";
+=======
+import React, { useCallback, useEffect, useState } from 'react'
+import {
+  Route,
+  Switch,
+  useRouteMatch,
+} from 'react-router-dom'
+import styled from 'styled-components'
+import axios from 'axios'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
+import CardContent from '../../components/CardContent'
+import CardIcon from '../../components/CardIcon'
+import Page from '../../components/Page'
+import sushi from '../../assets/img/sushi.png'
+import yamimg from '../../assets/img/yam.png'
+
+import { getAPR, getPoolEndTime } from '../../yamUtils'
+import useYam from '../../hooks/useYam'
+import BigNumber from 'bignumber.js'
+import { useWallet } from 'use-wallet'
+
+import Pool3 from './Pool3'
+import Landscape from '../../assets/img/landscapebig.png'
+import Sky from '../../assets/img/skybig.png'
+import TallSky from '../../assets/img/tallsky.png'
+import useFarms from '../../hooks/useFarms'
+import useFarm from '../../hooks/useFarm'
+import { getTotalValue } from '../../yamUtils'
+import { getStats } from './utils'
+import Cookie from 'universal-cookie'
+import VersusCard from './VersusCard.jsx'
+import BattleHistory from './PreviousBattles'
+import Schedule from './Schedule'
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
 
 function isMobile() {
   if (window.innerWidth < window.innerHeight) {
@@ -50,6 +86,7 @@ export interface OverviewData {
 }
 
 const Battle: React.FC = () => {
+<<<<<<< HEAD
   let [farms] = useFarms();
   const yam = useYam();
   let [tvl, setTVL] = useState({
@@ -60,6 +97,16 @@ const Battle: React.FC = () => {
   let [battles, setBattles] = useState([]);
   let [leaderboard, setLeaderboard] = useState([]);
   // let [voted, setVoted] = useState(cookie.get('voted'))
+=======
+  let [farms] = useFarms()
+  const yam = useYam()
+  let [tvl, setTVL] = useState({ totalValue: new BigNumber(0), poolValues: {} })
+  const { account, connect } = useWallet()
+  let [battles, setBattles] = useState([])
+  let [leaderboard, setLeaderboard] = useState([])
+  let [previousBattles, setPreviousBattles] = useState([])
+  let [schedule, setSchedule] = useState([])
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
 
   const [
     {
@@ -105,14 +152,27 @@ const Battle: React.FC = () => {
           setLeaderboard(lb);
           setBattles(res.data.battles);
         })
+<<<<<<< HEAD
         .catch(err => {
           console.log(err);
         });
+=======
+        console.log(lb);
+        setLeaderboard(lb)
+        console.log(res.data);
+        
+        setPreviousBattles(res.data.history)
+        setBattles(res.data.battles)
+        setSchedule(res.data.schedule)
+      }).catch(err => {
+        console.log(err);
+
+      })
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
     }
   }, [yam, account, farms, farms[0]]);
 
   let leaderboardContent;
-  let scheduleContent;
 
   if (farms[0]) {
     leaderboard = leaderboard.slice(0, 5);
@@ -128,9 +188,10 @@ const Battle: React.FC = () => {
             {rank}
             <StyledCardIcon>{pool.icon}</StyledCardIcon>
             <StyledTitle>{pool.name}</StyledTitle>
-            <StyledVotes>{item.votes} votes</StyledVotes>
+            <StyledVotes>{item.votes.toFixed(2)} votes</StyledVotes>
           </StyledContent>
         </LeaderBoardItem>
+<<<<<<< HEAD
       );
     });
 
@@ -151,6 +212,10 @@ const Battle: React.FC = () => {
     //     </ScheduleItem>
     //   )
     // })
+=======
+      )
+    })
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
   }
 
   let currentPrice = 0;
@@ -195,6 +260,7 @@ const Battle: React.FC = () => {
               Step 2: Vote for the armies you will fight for
             </Title>
             {battles.length > 0 && <VersusCard battles={battles} />}
+<<<<<<< HEAD
             <Title style={{ marginTop: "5vh" }}>Leaderboard</Title>
             {isMobile() ? (
               <MobileLeaderBoard>{leaderboardContent}</MobileLeaderBoard>
@@ -206,6 +272,14 @@ const Battle: React.FC = () => {
             <Schedule>
               {scheduleContent}
             </Schedule> */}
+=======
+            <Title style={{marginTop: '5vh'}}>Leaderboard</Title>
+            {isMobile() ? <MobileLeaderBoard>{leaderboardContent}</MobileLeaderBoard> : <LeaderBoard>{leaderboardContent}</LeaderBoard>}
+            <Title>Schedule</Title>
+            <Schedule schedule={schedule}/>
+            <Title style={{marginTop: '5vh'}}>Previous Battles</Title>
+            <BattleHistory history={previousBattles} />
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
           </Page>
         </ContentContainer>
       </StyledCanvas>
@@ -274,6 +348,7 @@ const ScheduleItem = styled.div`
   color: #ffffff;
 `;
 
+<<<<<<< HEAD
 const Schedule = styled.div`
   display: flex;
   flex-direction: row;
@@ -322,6 +397,27 @@ const LeaderBoardItem = !isMobile()
       justify-content: space-between;
       margin-bottom: 20px;
     `;
+=======
+const LeaderBoardItem = styled.div`
+text-align: center;
+width: 175px;
+  height: 200px;
+  border-radius: 8px;
+  border: solid 2px #0095f0;
+  background-color: #003677;
+  font-family: Alegreya;
+font-size: 20px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+line-height: 1;
+letter-spacing: normal;
+color: #ffffff;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+`
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
 
 const LeaderBoard = styled.div`
   margin-top: 3vh;
@@ -605,6 +701,7 @@ const AuthContainer = styled.div`
   flex-direction: column;
   align-content: center;
   height: 35vh;
+<<<<<<< HEAD
   justify-content: space-around;
 `;
 
@@ -623,6 +720,18 @@ const StyledSky = !isMobile()
       background-size: 100% 100%;
       background-repeat: repeat-x;
     `;
+=======
+  justify-content: space-around
+`
+
+const StyledSky = styled.div`
+  width: 100%;
+  height: 370vh;
+  background-image: url(${TallSky});
+  background-size: 100% 100%;
+  background-repeat: repeat-x;
+`
+>>>>>>> 2fc9ab60ed49159eddce7208bbbe981ae84a9a78
 
 const StyledLandscape = styled.div`
   width: 100%;
